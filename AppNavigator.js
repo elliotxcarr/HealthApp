@@ -7,17 +7,23 @@ import Home from './Home';
 import Medication from "./Medication";
 import DailyCheck from "./DailyCheck";
 
-const { Navigator, Screen} = createNativeStackNavigator();
+import Results from "./components/Results";
+
+const Stack= createNativeStackNavigator();
 
 function appNavigator(){
     return(
+
+
+
         <NavigationContainer>
-            <Navigator screenOptions={{headerShown:false}} initialRouteName='Home'>
+            <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='Home'>
                 
-                <Screen name = 'Home' component={Home}/>
-                <Screen name = 'Medication' component={Medication}/>
-                <Screen name = 'DailyCheck' component={DailyCheck}/>
-            </Navigator>
+                <Stack.Screen name = 'Home' component={Home}/>
+                <Stack.Screen name = 'Medication' component={Medication}/>
+                <Stack.Screen name = 'DailyCheck' component={DailyCheck}/>
+                <Stack.Screen name = 'Results' component={Results}/>
+            </Stack.Navigator>
         </NavigationContainer>
 
 

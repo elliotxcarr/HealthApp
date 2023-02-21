@@ -6,13 +6,26 @@ export default [
     },
     {
         id:"2",
-        question:"Use the slider to rate your overal PAIN today",
+        question:"How would you describe your body today in terms of pain or discomfort?",
         
     },
     {
         id:"3",
         question:"Use the slider to rate your level of STRESS today",
         
-    }
+    },
+    {
+        id:"4",
+        question:"Use the slider to rate your level of ENERGY today",
+        
+    },
+    {
+        id:"5",
+        question:"Use the slider to rate your quality of SLEEP last night",
+        
+    },
+    
+    
 ]
+
 

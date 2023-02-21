@@ -14,7 +14,7 @@ export default function DailyCheck({navigation}){
              <View style= {styles.toolbar}>
                    
                     
-                   <Text style={styles.titleText}>Daily Check</Text>
+                   <Text style={styles.titleText}>Daily Check-Up</Text>
                    
                    <StatusBar style='auto'/>
                </View>

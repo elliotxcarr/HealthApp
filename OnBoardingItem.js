@@ -19,6 +19,8 @@ export default OnBoardingItem = ({item})=>{
         }
         else if(score < 8 && score > 5){
             setTextScore('Good')
+        }else if(score ==5){
+            setTextScore('Okay')
         }
         else if(score < 5 && score > 2){
             setTextScore('Not great')

@@ -5,34 +5,36 @@ import { StyleSheet, Text, View, Dimensions,FlatList, Modal, TouchableOpacity, P
 import Icon from "react-native-vector-icons/Ionicons";
 
 import useFonts from "./useFonts";
-import { AddMeds } from "./components/addMeds";
-import { BlurView } from "@react-native-community/blur";
+import { AddMeds} from "./components/addMeds";
 
-
+import medicationData from "./components/MedicationData";
+import { MedInfo } from "./components/medInfo";
 
 var windowWidth = Dimensions.get('window').width;
 
-let medications = [
-    {id:1 , name : "Sertraline" , dosage: "50mg", remaining : 12 , icon : "notifications-outline", isRemind : false},
-    {id:2 , name : "Flucloxacillin" , dosage: "500mg", remaining : 4 ,icon : "notifications-outline", isRemind : false},
-    {id:3 , name : "Amitriptyline" , dosage: "25mg", remaining : 8 ,icon : "notifications-outline", isRemind : false},
- {id:4 , name : "Paracetamol" , dosage: "25mg", remaining : 8 ,icon : "notifications-outline", isRemind : false},
- {id:5 , name : "Sertraline" , dosage: "50mg", remaining : 12 , icon : "notifications-outline", isRemind : false},
+
    
-]
+
 export default function Medication({navigation}){
 
     
-    
+    const [chooseData, setChooseData] = useState()
     const [IsReady, SetIsReady] = useState(false)
-    const [products, setProducts] = useState(medications);
+    const [products, setProducts] = useState(medicationData);
     const [isModalVisible, setModalVisible] = useState(false);
-    
+    const [isViewInfoVis, setIsViewInfo] = useState(false);
 
     const changeModalVisible = (bool)=>{
         setModalVisible(bool)
     }
+    const changeInfoVisible=(bool,data)=>{
+        setIsViewInfo(bool)
+        
+    }
 
+    const sendData= (data)=>{
+        setChooseData(data)
+        }
     
 
      const handleChange = (id)=>{
@@ -58,16 +60,20 @@ export default function Medication({navigation}){
             <FlatList
                     data = {medications}
                     style={styles.medList}
+                    extraData={medicationData}
                     renderItem ={({item})=> (
-                        
-                    <View key={item.id} style={styles.medCard}>
+                    
+                    <View key={item.id} style={styles.medCard} >
                     <Pressable onPress={()=> handleChange(item.id)} >
                         <Icon name={item.isRemind ? 'notifications' : 'notifications-outline'} size={40} style={styles.bellIcon} color={'#77D199'}  />
                     
                         </Pressable>    
-                    <View style={styles.medLabel}>
-                        <Text style={styles.medText}>{item.name}</Text>
+                    <View style={styles.medLabel} >
+                    <Pressable onPress={()=>{changeInfoVisible(true);sendData({item})}}>
+                    <Text style={styles.medText}>{item.name}</Text>
                         <Text style={styles.medDose}>{item.dosage}</Text>
+                    </Pressable>
+                        
                     </View>
                     <View style={styles.endSec}>
                         <Text style={styles.remainingText}>{item.remaining}</Text>
@@ -114,13 +120,20 @@ export default function Medication({navigation}){
                {renderFlatlist(products)} 
               
                </View>
-                
+                <Modal
+                transparent={true}
+                animationType={'fade'}
+                visible={isViewInfoVis}
+                nRequestClose={()=>changeInfoVisible(false)}
+                avoidKeyboard={true}>
+                    <MedInfo changeInfoVisible={changeInfoVisible} data={chooseData}/>
+                </Modal>
                
                <View style={styles.addButton}>
                         <Icon name='add' size={57} style={styles.button} onPress={()=>changeModalVisible(true)} ></Icon>
                     </View>
 
-                <BlurView></BlurView>
+                
                 <Modal
                 transparent ={true}
                 animationType={"slide"}
@@ -130,7 +143,7 @@ export default function Medication({navigation}){
                 >
                     <AddMeds
                         changeModalVisible={changeModalVisible}
-                        setData={setData}
+                        
 
                     />
                 </Modal>
@@ -196,11 +209,13 @@ const styles = StyleSheet.create({
         alignItems:"center"
       },
       addButton:{
-        flex:0.3,
+        
         position:'relative',
-        alignItems:'center',
-        paddingTop:50
-       
+        flex:0.2,
+        alignItems:'flex-end',
+        
+        padding:10,
+        
 
       },
       button:{
@@ -208,7 +223,7 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         borderRadius:55,
         padding:6,
-        
+        elevation:3
         
       },
       medCard:{
@@ -218,7 +233,7 @@ const styles = StyleSheet.create({
         
         alignSelf:'center',
         
-        borderRadius:30,
+        borderRadius:15,
         elevation:2,
         marginBottom:10,
         flexDirection:'row',

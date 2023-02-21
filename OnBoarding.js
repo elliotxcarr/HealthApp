@@ -4,11 +4,13 @@ import Icon from "react-native-vector-icons/Ionicons";
 import OnBoardingItem from "./OnBoardingItem";
 import checkQuestions from "./checkQuestions";
 import Paginator from "./Paginator";
-import NextButton from "./NextButton";
 
 
-export default OnBoarding = ()=>{
+
+export default function OnBoarding({navigation}){
+    
     const  [currentIndex, setCurrentIndex] = useState(0);
+    const [shouldShow, setShouldShow] = useState(true)
     const scrollX = useRef(new Animated.Value(0)).current;
     
     const slidesRef = useRef(null)
@@ -16,21 +18,26 @@ export default OnBoarding = ()=>{
         setCurrentIndex(viewableItems[0].index);
     }).current;
 
+   
     
-
 
     const scrollTo=()=>{
         if(currentIndex < checkQuestions.length -1){
+            console.log(currentIndex)
             slidesRef.current.scrollToIndex({index: currentIndex +1})
-        }else{
-            console.log('last slide')
+        }else {
+            console.log(currentIndex)
+            setShouldShow(false)
         }
     }
     const scrollBack=()=>{
         if(currentIndex > 0){
+            console.log(currentIndex)
             slidesRef.current.scrollToIndex({index: currentIndex -1})
+            setShouldShow(true)
         }else{
-            console.log('last slide')
+            setShouldShow(true)
+            
         }
     }
     
@@ -59,9 +66,21 @@ export default OnBoarding = ()=>{
                         <Icon style={{backgroundColor:'#77D199', borderRadius:30, color:'white',padding:10}} name="arrow-back-outline" size={40}></Icon>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={scrollTo} style = {[styles.nextButton]}>
-                        <Icon style={{backgroundColor:'#77D199', borderRadius:30, color:'white',padding:10}} name="arrow-forward-outline" size={40}></Icon>
-                </TouchableOpacity>
+                
+                {shouldShow ? (
+                    <TouchableOpacity onPress={scrollTo} style = {[styles.nextButton]}>
+                    <Icon style={{backgroundColor:'#77D199', borderRadius:30, color:'white',padding:10}} name="arrow-forward-outline" size={40}></Icon>
+                    </TouchableOpacity>
+                ) : 
+                    <TouchableOpacity style = {[styles.nextButton]} onPress={() => navigation.navigate('Results')}>
+                    <Text style={{backgroundColor:'#77D199', borderRadius:20, color:'white',padding:10, fontSize:25}} >Next</Text>
+                    </TouchableOpacity>
+                
+                
+                
+                }
+                        
+                
             </View>
                 
             
