@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "beec9081-a08c-473d-b1e5-8368f3756ca5"
+      }
+    },
+    "owner": "elliotxcarr"
   }
 }
