@@ -1,14 +1,27 @@
 import { StatusBar } from "expo-status-bar";
-import React, {useState} from "react";
-import { Text, View, StyleSheet, SafeAreaView, Dimensions,  } from "react-native";
+import React, {useEffect, useState} from "react";
+import { Text, View, StyleSheet, SafeAreaView, Dimensions, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { scores } from "./OnBoardingItem";
 
-
+import Animated,{useSharedValue, useAnimatedStyle, withTiming} from "react-native-reanimated";
 const width = Dimensions.get('window').width;
 
 export default function Results({navigation}){
 
+const progress = useSharedValue(0)
+
+const reanimatedStyle = useAnimatedStyle(() =>{
+    return {
+        opacity: progress.value
+    }
+},[])
+ 
+    
+    useEffect(()=>{
+        progress.value = withTiming(1, {duration:1000})
+    },[])
+        
     
 
     return(
@@ -22,18 +35,42 @@ export default function Results({navigation}){
       </View>
       
       <View style={styles.card}>
-      <Text style={styles.category}>Your mood today: </Text>
-        <Text >{scores.mood}</Text>
-        
 
-        <Text style={styles.category}>Your pain today: </Text>
-        <Text>{scores.pain}</Text>
-        <Text style={styles.category}>Your stress today: </Text>
-        <Text>{scores.stress}</Text>
+        <Animated.View style={[reanimatedStyle,{alignItems:'center'}]} >
+            <Text style={styles.category}>Your mood today: </Text>
+            <View style={{flexDirection:'row',paddingBottom:20}}>
+            <Text style={styles.scores}>{scores[0].number}</Text>       
+            <Image source={scores[0].reaction} style={styles.emoji}/>
+            </View>
+        </Animated.View>
+        <Animated.View style={[reanimatedStyle,{alignItems:'center'}]} >
+            <Text style={styles.category}>Your comfort today: </Text>
+            <View style={{flexDirection:'row',paddingBottom:20}}>
+            <Text style={styles.scores}>{scores[1].number}</Text>  
+            <Image source={scores[1].reaction} style={styles.emoji}/>
+        </View>
+        </Animated.View>
+        <Animated.View style={[reanimatedStyle,{alignItems:'center'}]} >
+        <Text style={styles.category}>Your calmness today: </Text>
+        <View style={{flexDirection:'row',paddingBottom:20}}>
+        <Text style={styles.scores}>{scores[2].number}</Text>
+        <Image source={scores[2].reaction} style={styles.emoji}/>
+        </View>
+        </Animated.View>
+        <Animated.View style={[reanimatedStyle,{alignItems:'center'}]} >
         <Text style={styles.category}>Your energy today:</Text>
-        <Text>{scores.energy}</Text>
+        <View style={{flexDirection:'row',paddingBottom:20}}>
+        <Text style={styles.scores}>{scores[3].number}</Text>
+        <Image source={scores[3].reaction} style={styles.emoji}/>
+        </View>
+        </Animated.View>
+        <Animated.View style={[reanimatedStyle,{alignItems:'center'}]} >
         <Text style={styles.category}>Your sleep last night: </Text>
-        <Text>{scores.sleep}</Text>
+        <View style={{flexDirection:'row',paddingBottom:20}}>
+        <Text style={styles.scores}>{scores[4].number}</Text>
+        <Image source={scores[4].reaction} style={styles.emoji}/>
+        </View>
+        </Animated.View>
       </View>
 
       <View style={styles.menuBar}>
@@ -96,8 +133,19 @@ const styles = StyleSheet.create({
         alignItems:"center"
       },
       category:{
+        fontFamily:'OpenSansRegular',
+        fontSize:20,
+        alignSelf:"center",
+        paddingBottom:10
+      },
+      emoji:{
+        width:55,
+        height:55,
+      },
+      scores:{
         fontFamily:'OpenSansBold',
-        fontSize:30,
-        alignSelf:"center"
+        fontSize:40,
+        paddingRight:30
       }
+      
 })

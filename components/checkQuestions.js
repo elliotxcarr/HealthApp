@@ -11,7 +11,7 @@ export default [
     },
     {
         id:"3",
-        question:"Use the slider to rate your level of STRESS today",
+        question:"Use the slider to rate how RELAXED you feel today",
         
     },
     {

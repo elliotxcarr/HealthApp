@@ -5,14 +5,29 @@ import Slider from "@react-native-community/slider";
 var width = Dimensions.get("window").width
 
 
-export var scores = {
-    mood: null,
-    pain: null,
-    stress: null,
-    energy: null,
-    sleep: null,
+export var scores = [
+    {
+        number:null,
+        reaction:null
+    },
+    {
+        number:null,
+        reaction:null
+    },
+    {
+        number:null,
+        reaction:null
+    },
+    {
+        number:null,
+        reaction:null
+    },
+    {
+        number:null,
+        reaction:null
+    }]
     
-}
+
 
 export default OnBoardingItem = ({item})=>{
 
@@ -48,6 +63,7 @@ export default OnBoardingItem = ({item})=>{
         else if(score < 2 ){
             setTextScore('Terrible')
         }
+
     }
 
     function saveScore(value, id){
@@ -58,25 +74,46 @@ export default OnBoardingItem = ({item})=>{
        
        if(id == 1){
             setMoodScore(score)
-            scores.mood = Math.trunc(moodScore)
+            scores[0].number = Math.trunc(moodScore)
             
        }else if(id == 2){
             setPainScore(score)
-            scores.pain = Math.trunc(painScore)
+            scores[1].number = Math.trunc(painScore)
                
        }else if(id == 3){
             setStressScore(score)
-            scores.stress = Math.trunc(stressScore)
+            scores[2].number = Math.trunc(stressScore)
             
         }else if(id == 4){
             setEnergyScore(score)
-            scores.energy = Math.trunc(energyScore)
+            scores[3].number = Math.trunc(energyScore)
                 
         }else if(id == 5){
             setSleepScore(score)
-            scores.sleep = Math.trunc(sleepScore)   
+            scores[4].number = Math.trunc(sleepScore)   
         }
        
+        scores.map((item, index)=>{
+            if(item.number > 8){
+                item.reaction = require('./assets/Fantastic.png')
+            }
+            else if(item.number < 8 && item.number > 5){
+                item.reaction = require('./assets/Good.png')
+            }else if(item.number ==5){
+                item.reaction = require('./assets/Okay.png')
+            }
+            else if(item.number < 5 && item.number > 2){
+                item.reaction = require('./assets/NotGreat.png')
+            }
+            else if(item.number < 2 ){
+               item.reaction = require('./assets/Terrible.png')
+            }
+        })
+
+
+
+        
+
 
         
 
