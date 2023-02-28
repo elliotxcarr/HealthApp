@@ -1,12 +1,21 @@
 import React ,{useState} from "react";
 import { View,Text, StyleSheet , FlatList, useWindowDimensions, Dimensions} from "react-native";
-import {Scores} from "./Scores";
+
 import Slider from "@react-native-community/slider";
 var width = Dimensions.get("window").width
 
 
+export var scores = {
+    mood: null,
+    pain: null,
+    stress: null,
+    energy: null,
+    sleep: null,
+    
+}
 
 export default OnBoardingItem = ({item})=>{
+
     const [range,setRange] = useState("50%");
     const [sliding, setSliding] = useState('Inactive');
     const [textScore, setTextScore] = useState('Okay')
@@ -15,14 +24,18 @@ export default OnBoardingItem = ({item})=>{
     const [stressScore, setStressScore] = useState();
     const [energyScore, setEnergyScore] = useState();
     const [sleepScore, setSleepScore] = useState();
-    const [scores,setScores] = useState(Scores)
+
+   
+
     function handleChange(value){
         
         setRange(parseInt(value *10))
         let score = value *10
+        
 
         if(score > 8){
             setTextScore('Fantastic')
+            
         }
         else if(score < 8 && score > 5){
             setTextScore('Good')
@@ -39,24 +52,33 @@ export default OnBoardingItem = ({item})=>{
 
     function saveScore(value, id){
 
-        switch(id){
-            case 1:
-                setMoodScore(value)
+       
+       setRange(parseInt(value *10))
+       let score = value *10
+       
+       if(id == 1){
+            setMoodScore(score)
+            scores.mood = Math.trunc(moodScore)
+            
+       }else if(id == 2){
+            setPainScore(score)
+            scores.pain = Math.trunc(painScore)
+               
+       }else if(id == 3){
+            setStressScore(score)
+            scores.stress = Math.trunc(stressScore)
+            
+        }else if(id == 4){
+            setEnergyScore(score)
+            scores.energy = Math.trunc(energyScore)
                 
-                break;
-            case 2:
-                setPainScore(value)
-                break;
-            case 3:
-                setStressScore(value)
-                break;
-            case 4:
-                setEnergyScore(value)
-                break;
-            case 5:
-                setSleepScore(value)
-                break;
+        }else if(id == 5){
+            setSleepScore(score)
+            scores.sleep = Math.trunc(sleepScore)   
         }
+       
+
+        
 
         
     }
@@ -82,7 +104,7 @@ export default OnBoardingItem = ({item})=>{
             step = {0.1}
             onValueChange = {value => {
                 handleChange(value)
-                saveScore(value,item.id)
+               saveScore(value, item.id)
                 
             }
             

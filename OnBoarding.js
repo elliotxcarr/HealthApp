@@ -5,6 +5,7 @@ import OnBoardingItem from "./OnBoardingItem";
 import checkQuestions from "./components/checkQuestions";
 import Paginator from "./Paginator";
 
+import { scores } from "./OnBoardingItem";
 
 
 export default function OnBoarding({navigation}){
@@ -23,16 +24,17 @@ export default function OnBoarding({navigation}){
 
     const scrollTo=()=>{
         if(currentIndex < checkQuestions.length -1){
-            console.log(currentIndex)
+            
             slidesRef.current.scrollToIndex({index: currentIndex +1})
+            
         }else {
-            console.log(currentIndex)
+            
             setShouldShow(false)
         }
     }
     const scrollBack=()=>{
         if(currentIndex > 0){
-            console.log(currentIndex)
+            
             slidesRef.current.scrollToIndex({index: currentIndex -1})
             setShouldShow(true)
         }else{
@@ -72,7 +74,7 @@ export default function OnBoarding({navigation}){
                     <Icon style={{backgroundColor:'#77D199', borderRadius:30, color:'white',padding:10}} name="arrow-forward-outline" size={40}></Icon>
                     </TouchableOpacity>
                 ) : 
-                    <TouchableOpacity style ={[styles.nextButton]} onPress={()=> navigation.navigate('Results')}>
+                    <TouchableOpacity style ={[styles.nextButton]} onPress={()=> navigation.navigate('Results', scores)}>
                     <Text style={{backgroundColor:'#77D199', borderRadius:20, color:'white',padding:10, fontSize:25}} >Next</Text>
                     </TouchableOpacity>
                 
