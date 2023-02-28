@@ -1060,6 +1060,13 @@
   resolved "https://registry.yarnpkg.com/@camwiegert/typical/-/typical-0.1.1.tgz#c75d3b658e2f542d113c3e266389794c7dc45d6d"
   integrity sha512-4xAtH3F3uJ8boe9IPahdYFCBELmyOBwHGAn0rDO6C1rx0TuZb5f4UqfuiOQF7YiMJGCOsUIW7LyucMNnVQYsRg==
 
+"@egjs/hammerjs@^2.0.17":
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
+  integrity sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==
+  dependencies:
+    "@types/hammerjs" "^2.0.36"
+
 "@emotion/is-prop-valid@^1.1.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.2.0.tgz#7f2d35c97891669f7e276eb71c83376a5dc44c83"
@@ -1843,6 +1850,11 @@
   version "0.24.51"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.51.tgz#645f33fe4e02defe26f2f5c0410e1c094eac7f5f"
   integrity sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA==
+
+"@types/hammerjs@^2.0.36":
+  version "2.0.41"
+  resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.41.tgz#f6ecf57d1b12d2befcce00e928a6a097c22980aa"
+  integrity sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.4"
@@ -3145,10 +3157,10 @@ expo-asset@~8.7.0:
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
 
-expo-av@^13.0.2:
-  version "13.0.2"
-  resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-13.0.2.tgz#06c2c5140b334319ed2844823181f7b88092da13"
-  integrity sha512-u+y9wUBodp08UjRZYckNWzr9zEQHK6eScRBkhdTd9Rq48SEZ7eN6xXn79hubvk0P5nj7lFS+hdKjmx9T5XHGww==
+expo-av@~13.0.3:
+  version "13.0.3"
+  resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-13.0.3.tgz#b624757f3c4f8c35ca83d0485bb20b79b2f9e13d"
+  integrity sha512-9SpXOjY2MUK+jCIL68EUro/aHBlbZ3B4cY1nRr2aTPfv/dLD3bXRZNTTtSwOgsHbuKO6XwjHgCoYbd9T0GcE4A==
 
 expo-constants@~14.0.0, expo-constants@~14.0.2:
   version "14.0.2"
@@ -3710,7 +3722,7 @@ hermes-profile-transformer@^0.0.6:
   dependencies:
     source-map "^0.7.3"
 
-hoist-non-react-statics@^3.0.0:
+hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -4341,7 +4353,7 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
-lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.4:
+lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.17.4:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -5531,6 +5543,17 @@ react-native-css-vh-vw@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-css-vh-vw/-/react-native-css-vh-vw-1.0.5.tgz#dfa8e2fde22fa6a36e43101c713f2dcd13a00cad"
   integrity sha512-pY0gIB1xc1xLp3VH6mji7zHfiOc7BpFFCtOTpMeyjfoQ4CacmcCD6vTZuM2ReuK+oXdWrbx7CquTHxl44aHcBA==
+
+react-native-gesture-handler@~2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.8.0.tgz#ef9857871c10663c95a51546225b6e00cd4740cf"
+  integrity sha512-poOSfz/w0IyD6Qwq7aaIRRfEaVTl1ecQFoyiIbpOpfNTjm2B1niY2FLrdVQIOtIOe+K9nH55Qal04nr4jGkHdQ==
+  dependencies:
+    "@egjs/hammerjs" "^2.0.17"
+    hoist-non-react-statics "^3.3.0"
+    invariant "^2.2.4"
+    lodash "^4.17.21"
+    prop-types "^15.7.2"
 
 react-native-gradle-plugin@^0.70.3:
   version "0.70.3"

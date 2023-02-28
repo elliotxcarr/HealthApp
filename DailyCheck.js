@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState,useCallback} from "react";
-import { ImageBackground ,StyleSheet, Text, FlatList, TouchableOpacity, View, Image, SafeAreaView, Dimensions, Animated, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 import OnBoarding from "./OnBoarding";
 
 import { StatusBar } from "expo-status-bar";
 export default function DailyCheck({navigation}){
 
-
-    
 
     return(
         <View style={styles.container}>
@@ -19,11 +17,11 @@ export default function DailyCheck({navigation}){
                    <StatusBar style='auto'/>
                </View>
         
-               <OnBoarding />
+               <OnBoarding navigation={navigation} />
                 
               
         <View style={styles.menuBar}>
-            <Icon name="person" size={37} color={"white"}></Icon>
+            <Icon name="person" size={37} color={"white"} ></Icon>
             <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => navigation.navigate('Home')}></Icon>
             <Icon name="settings" size={37} color={"white"}></Icon>
         </View>

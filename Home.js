@@ -125,7 +125,7 @@ export default function Home({navigation}){
                 <Text style={styles.buttonText} onPress={() => navigation.navigate('Medication')}>Medication</Text>
             </TouchableOpacity>
             <TouchableOpacity>
-                <Text style={styles.buttonText}>Goals</Text>
+                <Text style={styles.buttonText} onPress={()=> navigation.navigate('Goals')}>Goals</Text>
             </TouchableOpacity>  
             <TouchableOpacity>
                 <Text style={styles.buttonText}>Vitals</Text>

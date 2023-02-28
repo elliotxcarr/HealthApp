@@ -1,14 +1,21 @@
 import React ,{useState} from "react";
 import { View,Text, StyleSheet , FlatList, useWindowDimensions, Dimensions} from "react-native";
-
+import {Scores} from "./Scores";
 import Slider from "@react-native-community/slider";
 var width = Dimensions.get("window").width
+
+
 
 export default OnBoardingItem = ({item})=>{
     const [range,setRange] = useState("50%");
     const [sliding, setSliding] = useState('Inactive');
-    const [textScore, setTextScore] = useState('Okay');
-
+    const [textScore, setTextScore] = useState('Okay')
+    const [moodScore, setMoodScore] = useState();
+    const [painScore, setPainScore] = useState();
+    const [stressScore, setStressScore] = useState();
+    const [energyScore, setEnergyScore] = useState();
+    const [sleepScore, setSleepScore] = useState();
+    const [scores,setScores] = useState(Scores)
     function handleChange(value){
         
         setRange(parseInt(value *10))
@@ -30,8 +37,31 @@ export default OnBoardingItem = ({item})=>{
         }
     }
 
+    function saveScore(value, id){
 
+        switch(id){
+            case 1:
+                setMoodScore(value)
+                
+                break;
+            case 2:
+                setPainScore(value)
+                break;
+            case 3:
+                setStressScore(value)
+                break;
+            case 4:
+                setEnergyScore(value)
+                break;
+            case 5:
+                setSleepScore(value)
+                break;
+        }
 
+        
+    }
+
+    
     return(
         <View style={[styles.container, {width}]}>
 
@@ -50,9 +80,12 @@ export default OnBoardingItem = ({item})=>{
             maximumTrackTintColor = {'#000'}
             value = {0.5}
             step = {0.1}
-            onValueChange = {value => 
+            onValueChange = {value => {
+                handleChange(value)
+                saveScore(value,item.id)
+                
+            }
             
-            handleChange(value)
             
             }
             onSlidingStart = {() => setSliding('Sliding')}
@@ -89,3 +122,4 @@ const styles = StyleSheet.create({
         
     }
 })
+

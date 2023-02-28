@@ -25,7 +25,7 @@ const MedInfo = (props)=>{
     props.changeInfoVisible(bool)
     let index = medicationData.findIndex((obj)=> obj.id == id)
     medicationData.splice(index, 1)
-    console.log(medicationData)
+    
   }
 
     Date.prototype.addDays = function(days) {

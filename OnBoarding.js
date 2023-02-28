@@ -2,7 +2,7 @@ import React ,{useState,useRef} from "react";
 import { View,Text, StyleSheet , FlatList, Animated, TouchableOpacity} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import OnBoardingItem from "./OnBoardingItem";
-import checkQuestions from "./checkQuestions";
+import checkQuestions from "./components/checkQuestions";
 import Paginator from "./Paginator";
 
 
@@ -72,7 +72,7 @@ export default function OnBoarding({navigation}){
                     <Icon style={{backgroundColor:'#77D199', borderRadius:30, color:'white',padding:10}} name="arrow-forward-outline" size={40}></Icon>
                     </TouchableOpacity>
                 ) : 
-                    <TouchableOpacity style = {[styles.nextButton]} onPress={() => navigation.navigate('Results')}>
+                    <TouchableOpacity style ={[styles.nextButton]} onPress={()=> navigation.navigate('Results')}>
                     <Text style={{backgroundColor:'#77D199', borderRadius:20, color:'white',padding:10, fontSize:25}} >Next</Text>
                     </TouchableOpacity>
                 
