@@ -53,20 +53,20 @@ const AddMeds = (props)=>{
                     <View style={styles.inputs}>
                         <Text style={styles.tags}>Starting Amount</Text>
                         <View style={{flexDirection:'row'}}>
-                            <TextInput style={[styles.name,{width:70}]} placeholder="" keyboardType="numeric"onChangeText={(newRemaining)=>setNewRemaining(newRemaining)} value={newRemaining}></TextInput>
+                            <TextInput style={[styles.name,{width:70}]} placeholder="" keyboardType="numeric" onChangeText={(newRemaining)=>setNewRemaining(newRemaining)} value={newRemaining}></TextInput>
                         
                         </View>
                     </View>
             </View>
                
-            <View style={{flexDirection:'row', justifyContent:'center'}}>
+            
 
             <TouchableOpacity onPress={()=>{closeAndAdd(false,newMedName,newDose,newRemaining)}} style={styles.close} >
                     <Text style={[styles.buttons,{fontSize:20}]}>Add</Text>
                 </TouchableOpacity>
                 
                 
-            </View>
+            
             <StatusBar translucent></StatusBar>
             </View>
         </TouchableOpacity>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         
     },
     close:{
-        justifyContent:"flex-end",
+        alignItems:'center',
         backgroundColor:'#77D199',
         padding:7,
         borderRadius:6
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         fontFamily:'OpenSansRegular'
     },
     buttons:{
-    
+        
         fontFamily:'OpenSansBold',
         color:'white',
         

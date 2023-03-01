@@ -102,7 +102,7 @@ export default function Home({navigation}){
                 isLooping = {true}
                 style={styles.backgroundVideo}
                 />
-
+        <StatusBar style='auto'/>
             <View style={styles.title}>
                 <Text style={styles.titleText}>Welcome User!</Text>
                 <Icon name="person" style={styles.profile} size={45}></Icon>
@@ -194,7 +194,7 @@ export default function Home({navigation}){
           },
           speechText:{
             fontFamily:'OpenSansRegular',
-            fontSize:17,
+            fontSize:15,
             padding:10,
             alignSelf:'center'
           },

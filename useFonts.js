@@ -6,4 +6,5 @@ export default useFonts = async () =>
         OpenSansBold: require('./assets/Fonts/OpenSans-Bold.ttf'),
         OpenSansLight: require('./assets/Fonts/OpenSans-Light.ttf'),
         OpenSansRegular: require('./assets/Fonts/OpenSans-Regular.ttf'),
+        OpenSansSemiBold: require('./assets/Fonts/OpenSans-SemiBold.ttf')
   });

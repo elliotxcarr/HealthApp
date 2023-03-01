@@ -8,7 +8,7 @@ const HEIGH_MODAL = Dimensions.get('window').height;
 const MedInfo = (props)=>{
 
 
-   closeModal = (bool,data)=>{
+   const closeModal = (bool,data)=>{
     props.changeInfoVisible(bool)
     
    }
