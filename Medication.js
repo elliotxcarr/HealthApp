@@ -3,7 +3,7 @@ import AppLoading from "expo-app-loading";
 import { StatusBar, } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions,FlatList, Modal, TouchableOpacity, Pressable} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
-
+import { FadeInFlatList } from '@ja-ka/react-native-fade-in-flatlist';
 import useFonts from "./useFonts";
 import { AddMeds} from "./components/addMeds";
 
@@ -57,22 +57,26 @@ export default function Medication({navigation}){
 
       const renderFlatlist = (medications)=>{
         return(
-            <FlatList
+            <FadeInFlatList
+                    initialDelay={0}
+                    durationPerItem={600}
+                    parallelItems={4}
+                    itemsToFadeIn={medicationData.length}
                     data = {medications}
                     style={styles.medList}
                     extraData={medicationData}
                     renderItem ={({item})=> (
                     
                     <View key={item.id} style={styles.medCard} >
-                    <Pressable onPress={()=> handleChange(item.id)} >
+                    <TouchableOpacity onPress={()=> handleChange(item.id)} >
                         <Icon name={item.isRemind ? 'notifications' : 'notifications-outline'} size={40} style={styles.bellIcon} color={'#77D199'}  />
                     
-                        </Pressable>    
+                        </TouchableOpacity>    
                     <View style={styles.medLabel} >
-                    <Pressable onPress={()=>{changeInfoVisible(true);sendData({item})}}>
+                    <TouchableOpacity onPress={()=>{changeInfoVisible(true);sendData({item})}}>
                     <Text style={styles.medText}>{item.name}</Text>
                         <Text style={styles.medDose}>{item.dosage}</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                         
                     </View>
                     <View style={styles.endSec}>
@@ -130,7 +134,7 @@ export default function Medication({navigation}){
                 </Modal>
                
                <View style={styles.addButton}>
-                        <Icon name='add' size={57} style={styles.button} onPress={()=>changeModalVisible(true)} ></Icon>
+                        <Icon name='add' size={47} style={styles.button} onPress={()=>changeModalVisible(true)} ></Icon>
                     </View>
 
                 
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
     },
     menuBar:{
         width:'100%',
-        height:70,
+        height:57,
         borderTopLeftRadius:20,
         borderTopRightRadius:20,
         bottom:0,
@@ -223,18 +227,18 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         borderRadius:55,
         padding:6,
-        elevation:3
+        
         
       },
       medCard:{
         width: windowWidth - 20,
-        height: 100,
+        height: 80,
         backgroundColor:'white',
         
         alignSelf:'center',
         
         borderRadius:15,
-        elevation:2,
+        
         marginBottom:10,
         flexDirection:'row',
         justifyContent:'flex-start',
@@ -243,7 +247,7 @@ const styles = StyleSheet.create({
     medText:{
         alignSelf:'flex-start',
         fontFamily:'OpenSansRegular',
-        fontSize:30,
+        fontSize:25,
         
     },
     medLabel:{
@@ -254,7 +258,7 @@ const styles = StyleSheet.create({
     medDose:{
         alignSelf:'flex-start',
         fontFamily:'OpenSansRegular',
-        fontSize:20,
+        fontSize:18,
         color:'gray'
         
     },
@@ -265,7 +269,7 @@ const styles = StyleSheet.create({
         
     },
     remainingText:{
-        fontSize:30
+        fontSize:25
     },
     remainingUnder:{
         alignSelf:'center'

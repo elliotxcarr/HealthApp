@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
         alignItems:'flex-start',
         borderRadius:20,
         backgroundColor:'white',
-        elevation:4,
+        
        marginBottom:10,
        
         
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     },
     menuBar:{
         width:'100%',
-        height:65,
+        height:57,
         borderTopLeftRadius:20,
         borderTopRightRadius:20,
         bottom:0,

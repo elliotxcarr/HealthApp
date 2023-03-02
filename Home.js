@@ -128,7 +128,7 @@ export default function Home({navigation}){
                 <Text style={styles.buttonText} onPress={()=> navigation.navigate('Goals')}>Goals</Text>
             </TouchableOpacity>  
             <TouchableOpacity>
-                <Text style={styles.buttonText}>Vitals</Text>
+                <Text style={styles.buttonText} onPress={()=> navigation.navigate('Vitals')}>Vitals</Text>
             </TouchableOpacity>
         
             </View>
