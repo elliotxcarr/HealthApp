@@ -10,12 +10,12 @@ import AppLoading from "expo-app-loading";
 import useFonts from "./useFonts";
 import * as Font from 'expo-font';
 const factsApi = "https://health.gov/myhealthfinder/api/v3/itemlist.json?Type=topic";
-
+SplashScreen.preventAutoHideAsync().catch(console.warn);
 
 export default function Home({navigation}){
 
     
-    const [IsReady, SetIsReady] = useState(false)
+    
     const [fontsloaded, setFontsLoaded] = useState(false);
     const [data, setData] = useState([]);
     
@@ -24,10 +24,7 @@ export default function Home({navigation}){
     
     const factsArray = [];
    
-    const LoadFonts = async () => {
-        await useFonts();
-      };
-   
+    
 
     
 
@@ -78,16 +75,7 @@ export default function Home({navigation}){
 
     },[]);
 
-    if(!IsReady){
-        return (
-            <AppLoading
-              startAsync={LoadFonts}
-              onFinish={() => {
-                SetIsReady(true);
-              }}
-              onError={console.warn}
-            />
-          )};
+    
 
     
     return(
