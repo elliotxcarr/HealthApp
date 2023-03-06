@@ -148,8 +148,9 @@ export default function Goals({navigation}){
         <FlatList
         data={dataList}
         keyExtractor ={ (e,i) => i.toString()}
-        renderItem={renderItem}>
-
+        renderItem={renderItem}
+        extraData={GoalData}>
+        
         </FlatList>
       <TouchableOpacity>
         <Icon name={'add'} size={57}></Icon>

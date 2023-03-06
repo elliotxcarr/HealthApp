@@ -2,10 +2,15 @@ import React,{useState} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions,TextInput } from "react-native";
 import  Icon  from "react-native-vector-icons/Ionicons";
 import RadioGroup from 'react-native-radio-buttons-group';
+import goalData from "./GoalData";
 const WIDTH = Dimensions.get('window').width;
 const HEIGH_MODAL = Dimensions.get('window').height;
 
 const AddGoal = (props) => {
+
+    var todaysDate = new Date();
+    console.log(todaysDate)
+
 
     const closeModal = (bool,data)=>{
         props.changeModalVisible(bool)
@@ -29,9 +34,25 @@ const AddGoal = (props) => {
         }
     ]);
 
+    const closeAndAdd = (bool,newGoalText,newDays,radioButtons)=>{
+        props.changeModalVisible(bool);
+        goalData.push({
+            id:goalData.length + 1,
+            goal:newGoalText,
+            dateStart : '2023-03-06',
+            days: newDays,
+            progress:null,
+            status: radioButtons
+        })
+        
+    }
+
     function onPressRadioButton(radioButtonsArray) {
         setRadioButtons(radioButtonsArray);
     }
+    const [newGoalText, setGoalText] = useState("")
+    const [newDays , setDays] = useState("")
+    
 
     return(
         <TouchableOpacity
@@ -57,20 +78,20 @@ const AddGoal = (props) => {
         <View style={styles.list}>
                 <View style={styles.inputs}>
                         <Text style={styles.tags}>What is the daily goal?</Text>
-                        <TextInput style={styles.name} placeholder="" ></TextInput>
+                        <TextInput style={styles.name} placeholder="" onChangeText={(newGoalText)=>setGoalText(newGoalText)} value={newGoalText}></TextInput>
                     </View>
 
                     <View style={styles.inputs}>
                         <Text style={styles.tags}>How many days?</Text>
                         <View style={{flexDirection:'row'}}>
-                            <TextInput style={[styles.name,{width:70}]} placeholder="" keyboardType="numeric" ></TextInput>
+                            <TextInput style={[styles.name,{width:70}]} placeholder="" keyboardType="numeric" onChangeText={(newDays)=>setDays(newDays)} value={newDays} ></TextInput>
                         
                         </View>
                     </View>
                     
             </View>
             
-            <TouchableOpacity  style={styles.close} >
+            <TouchableOpacity  style={styles.close} onPress={()=>closeAndAdd(false, newGoalText,newDays,radioButtons)} >
                     <Text style={{fontSize:20,fontFamily:'OpenSansSemiBold',color:'white'}}>Add</Text>
                 </TouchableOpacity>
         </View>

@@ -3,20 +3,24 @@ import React, {useEffect, useState} from "react";
 import { StatusBar, } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions,FlatList, Modal, TouchableOpacity, Pressable, Touchable} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
-import Animated,{useAnimatedStyle, useSharedValue, withDelay, withTiming} from "react-native-reanimated";
-import useFonts from "./useFonts";
+import Animated,{useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming, withSequence, Easing} from "react-native-reanimated";
+import { ResultsCalculations } from "./BPCalc";
 
 import AnimatedLottieView from "lottie-react-native";
+import { ScrollView } from "react-native-gesture-handler";
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 export default function Vitals({navigation}){
+    const resultsOpac = useSharedValue(0)
+    const textOpac = useSharedValue(0)
     const heartScale = useSharedValue(0)
     const scale = useSharedValue(0);
     const progress = useSharedValue(0);
     const buttonProgress = useSharedValue(0);
    const [playNext, setPlayNext]= useState(false);
-
+   const [showResults, setResults] = useState(false);
+    const [showStart, setStart] = useState(true)
     const reanimatedStyle = useAnimatedStyle(()=>{
 
         return{
@@ -28,7 +32,7 @@ export default function Vitals({navigation}){
 
     const buttonStyleAnim = useAnimatedStyle(()=>{
         return{
-            opacity: withTiming(buttonProgress.value, {duration:1000}) 
+            opacity: withTiming(buttonProgress.value, {duration:600}) 
         }
     },[])
 
@@ -38,6 +42,7 @@ export default function Vitals({navigation}){
         scale.value =  withDelay( 600, withTiming(3)) 
         buttonProgress.value =  withDelay( 2000, withTiming(1)) 
 
+        
 
        
     },[]);
@@ -45,15 +50,35 @@ export default function Vitals({navigation}){
     
         const heartStyle = useAnimatedStyle(()=>{
             return{
-                transform : [{scale: withTiming(heartScale.value, {duration: 1000})}]
+                transform : [{scale: withTiming(heartScale.value, {duration: 600})}]
             }
-        })
-   
+        },[])
+       const textStyle = useAnimatedStyle(()=>{
+        return{
+            opacity: textOpac.value
+        }
+       },[])
+       const flashText = ()=>{
         
+            textOpac.value  = 
+                withDelay(2000, withRepeat(
+                  withSequence(
+                    
+                    withTiming(1, {duration: 1000, easing: Easing.inOut(Easing.ease)}),
+                    withTiming(0, {duration: 1000, easing: Easing.inOut(Easing.ease)}),
+                  )
+                , 6))
+              
+              setInterval(()=>{heartScale.value = 0; setInterval(()=>{setResults(true);resultsOpac.value=1},1000); setInterval(()=>setStart(false),600);setInterval(()=>setPlayNext(false),600)  }, 15000)
+       }
     
+       const resultsStyle = useAnimatedStyle(()=>{
+            return{
+                opacity: withTiming(resultsOpac.value, {duration:1000})
 
-
-    
+            }
+       },[])    
+       
     return(
 
         <View style={styles.container}>
@@ -66,7 +91,9 @@ export default function Vitals({navigation}){
                     
                 
                 </View>
-                <View style={{justifyContent:'center', alignItems:'center',flex:2}}>
+                {showStart ? 
+                    <View>
+                    <View style={{justifyContent:'center', alignItems:'center', top:300}}>
                         <Animated.View
                                 style={[reanimatedStyle, styles.card]}>
 
@@ -74,15 +101,60 @@ export default function Vitals({navigation}){
                         <AnimatedLottieView source={require('./assets/97914-arrow-grey.json')} autoPlay style={styles.arrowAnim}/>
                                
                         </Animated.View>
-                </View>
-                <Animated.View style={[buttonStyleAnim,{alignItems:'center',flex:0.55}]}>
-                    <TouchableOpacity style={{backgroundColor:'#77D199', borderRadius:10}} onPress={()=>{progress.value = 0; scale.value = 0;buttonProgress.value=0,heartScale.value = 1}}>
-                        <Text style={{padding:15, fontFamily:'OpenSansSemiBold', color:'white', fontSize:20}} >Done</Text>
-                    </TouchableOpacity>
+                    </View>
+                    <Animated.View style={[buttonStyleAnim,{alignItems:'center',top:500}]}>
+                        <TouchableOpacity style={{backgroundColor:'#77D199', borderRadius:10}} onPress={()=>{ progress.value = 0; scale.value = 0;buttonProgress.value=0; heartScale.value = 1;setPlayNext(true);flashText()}}>
+                            <Text style={{padding:15, fontFamily:'OpenSansSemiBold', color:'white', fontSize:20}} >Done</Text>
+                        </TouchableOpacity>
+                    </Animated.View>
+                    </View>
+                :
+                    null
+                }
+                
+
+                {playNext ? 
+                <Animated.View style={heartStyle}>
+                <AnimatedLottieView source={require('./assets/4565-heartbeat-medical.json')} autoPlay style={{width:250, height:250, alignSelf:'center', top:30}} />
+                
+                <AnimatedLottieView source={require('./assets/97127-loading-icon.json')} autoPlay style={{width:200,height:200, top:40, alignSelf:'center'}}/>
+                <Animated.View style={[textStyle,{alignItems:'center'}]}>
+                
+                    <Text style={{fontFamily:'OpenSansSemiBold',fontSize:20}}>Processing Your Blood Pressure... </Text>
                 </Animated.View>
+                </Animated.View> 
+
+
+                :
+                null}
+
+                {showResults ? 
+
+                <Animated.View style={[resultsStyle,{paddingRight:30, justifyContent:'center',flex:0.95}]}>
+                 
+                    
+                    <Text style={styles.type}>Systolic Pressure</Text>
+                    <View style={{flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-end'}}>
+                    <Text style={styles.readings}>121</Text>
+                    <Text style={{textAlign:"right", fontFamily:'OpenSansRegular'}}>mmHg</Text>
+                    </View>
+                    <Text style={styles.type}>Diastolic Pressure</Text>
+                    <View style={{flexDirection:'row',alignItems:'flex-end', justifyContent:'flex-end'}}>
+                    <Text style={styles.readings}>80</Text>
+                    <Text  style={{textAlign:"right"}}>mmHg</Text>
+                    </View>
+                    
+                    <ResultsCalculations/>
+                    
+                 </Animated.View>
+                 
+                 :
+                 null
+                }
+                
                 
                
-
+              
                 <View style={styles.menuBar}>
       
                     <Icon name="person" size={37} color={"white"}></Icon>
@@ -149,5 +221,22 @@ const styles = StyleSheet.create({
         textAlign:'center',
         fontSize:12,
         padding:10
+      },
+      resultsCard:{
+        height:450,
+        width:380,
+        backgroundColor:'white',
+        borderRadius:20, 
+        elevation:3, 
+      },
+      readings:{
+        fontFamily:'OpenSansSemiBold',
+        fontSize:50,
+        textAlign:'right'
+      },
+      type:{
+        fontFamily:'OpenSansRegular',
+        fontSize:23,
+        textAlign:'right'
       }
 })
