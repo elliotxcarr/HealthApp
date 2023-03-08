@@ -9,6 +9,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import AppLoading from "expo-app-loading";
 import useFonts from "./useFonts";
 import * as Font from 'expo-font';
+import { auth, database } from "./firebase";
+import { onValue, ref, } from "firebase/database";
+
 const factsApi = "https://health.gov/myhealthfinder/api/v3/itemlist.json?Type=topic";
 SplashScreen.preventAutoHideAsync().catch(console.warn);
 
@@ -18,7 +21,7 @@ export default function Home({navigation}){
     
     const [fontsloaded, setFontsLoaded] = useState(false);
     const [data, setData] = useState([]);
-    
+    const [currentFName, setCurrentFName] = useState('');
     const progress = useRef(new Animated.Value(0)).current;
     const scale = useRef(new Animated.Value(0)).current;
     
@@ -26,7 +29,12 @@ export default function Home({navigation}){
    
     
 
-    
+    const handleSignout = ()=>{
+        auth.signOut()
+        .then(()=>{
+            navigation.replace('Login')
+        })
+    }
 
     useEffect(()=>{
         fetch(factsApi)
@@ -71,12 +79,23 @@ export default function Home({navigation}){
     useEffect(() => {
        
             Animated.timing(progress, {toValue:1, useNativeDriver:false, duration:800,delay:7000}).start()
-            Animated.timing(scale, {toValue:1, useNativeDriver:false, duration:800,delay:7000}).start()
+            Animated.timing(scale, {toValue:1, useNativeDriver:false, duration:800,delay:9000}).start()
 
     },[]);
 
-    
+     useEffect(()=>{
+        const currentUser = auth.currentUser.uid
 
+        const starCountRef = ref(database, 'users/' + currentUser);
+        onValue(starCountRef,(snapshot)=>{
+            const item = snapshot.val()
+            setCurrentFName(item.firstName)
+            console.log(currentFName)
+        })
+          
+     },[])
+        
+        
     
     return(
         <SafeAreaView style={styles.container} >
@@ -92,8 +111,8 @@ export default function Home({navigation}){
                 />
         <StatusBar style='auto'/>
             <View style={styles.title}>
-                <Text style={styles.titleText}>Welcome User!</Text>
-                <Icon name="person" style={styles.profile} size={45}></Icon>
+                <Text style={styles.titleText}>Welcome {currentFName}!</Text>
+                <Icon name="log-out" style={styles.profile} size={45} onPress={()=>{handleSignout()}}></Icon>
                 <Icon name="settings" style={styles.profile} size={45}></Icon>
             </View>
             

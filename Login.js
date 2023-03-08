@@ -1,13 +1,56 @@
-import React,{useState} from "react";
-import { View, Text, StyleSheet, StatusBar, TextInput, Button, TouchableOpacity} from "react-native";
+import React,{useEffect, useState} from "react";
+import { View, Text, StyleSheet, StatusBar, TextInput, Button, TouchableOpacity, Image} from "react-native";
 import useFonts from "./useFonts";
 import Icon from 'react-native-vector-icons/Ionicons'
 import AppLoading from "expo-app-loading";
 import * as SplashScreen from './node_modules/expo-splash-screen'
- 
+
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
 SplashScreen.preventAutoHideAsync().catch(console.warn);
 
 export default function Login({navigation}){
+
+    const [loginEmail, setLoginEmail] = useState('')
+    const [ loginPassword, setLoginPassword] = useState('')
+    
+    useEffect(()=>{
+        
+        auth.onAuthStateChanged(user=>{
+            if(user){
+                navigation.navigate('Home')
+            }
+        })
+    },[])
+    
+    const handleLogin = ()=>{
+        
+       signInWithEmailAndPassword(auth, loginEmail,loginPassword)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log('Logged in with' + user.email)
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode)
+            if(errorCode == 'auth/invalid-email'){
+                alert('Incorrect email')
+            }else if( errorCode == 'auth/wrong-password'){
+                alert('Incorrect password')
+            }
+
+            // ..
+        });
+        
+        
+    }
+
+
+
+
 
     const [IsReady, SetIsReady] = useState(false)
     const LoadFonts = async () => {
@@ -26,22 +69,23 @@ export default function Login({navigation}){
           )};
     return(
         <View style={styles.container}>
-        <StatusBar style='auto' />
+        <StatusBar backgroundColor={'#77D199'}></StatusBar>
             <View style={styles.heading}>
+            <Image source={require('./assets/logo.png')} style={styles.logo}></Image>
                 <Text style={styles.titleText}>Log In</Text>
             </View>
             
             <View style={styles.form}>
             
-                <TextInput style={styles.inputField} placeholder="Email Address" ></TextInput>
-                <TextInput style={styles.inputField} placeholder="Password" ></TextInput>
+                <TextInput style={styles.inputField} placeholder="Email Address" value ={loginEmail} onChangeText={setLoginEmail}></TextInput>
+                <TextInput style={styles.inputField} secureTextEntry placeholder="Password" value ={loginPassword} onChangeText={setLoginPassword}></TextInput>
                 
-                <TouchableOpacity style={styles.enterButton} onPress={()=>{navigation.navigate('Home')}}>
+                <TouchableOpacity style={styles.enterButton} onPress={()=>{handleLogin()}}>
                     <Text style={styles.enterText}>Enter</Text>
                 </TouchableOpacity>
                 <View style={{alignItems:'center', justifyContent:'center', flex:2, flexDirection:'row'}}>
                 <Text style={{fontFamily:'OpenSansRegular', fontSize:15,color:'white'}}>New user? </Text>
-                <TouchableOpacity onPress={()=>{navigation.navigate('SignUp') }}>
+                <TouchableOpacity onPress={()=>{navigation.navigate('SignUp')}}>
                 <Text style={{fontFamily:'OpenSansSemiBold', fontSize:20, textDecorationLine:'underline', color:'white'}} >Sign Up</Text>
 
                 </TouchableOpacity>
@@ -64,16 +108,17 @@ const styles = StyleSheet.create({
         backgroundColor:'#77D199'
     },
     heading:{
-        flex:1,
+        flex:2,
         justifyContent:'flex-end',
-        paddingBottom:50
+        paddingBottom:50,
+        alignItems:'center'
     },
     form:{
         flex:2,
         
     },
     titleText:{
-        fontFamily:'OpenSansSemiBold',
+        fontFamily:'OpenSansBold',
         color:'white',
         fontSize:50
     },
@@ -96,5 +141,11 @@ const styles = StyleSheet.create({
         fontSize:25,
         color:'white',
         
+    },
+    logo:{
+        width:160,
+        height:160,
+    marginBottom:10,
+    
     }
 })
