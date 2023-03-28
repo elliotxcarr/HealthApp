@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Dimensions,FlatList, Modal, TouchableOpacity, P
 import Icon from "react-native-vector-icons/Ionicons";
 import Animated,{useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming, withSequence, Easing} from "react-native-reanimated";
 import { ResultsCalculations } from "./BPCalc";
-
+import { Audio } from "expo-av";
 import AnimatedLottieView from "lottie-react-native";
 import { ScrollView } from "react-native-gesture-handler";
 const HEIGHT = Dimensions.get('window').height;
@@ -29,6 +29,39 @@ export default function Vitals({navigation}){
             opacity : withTiming(progress.value, {duration:500}) 
         }
     },[]);
+
+
+    const [selectSound,setSelectSound] = useState(new Audio.Sound())
+    const [loadSound, setLoadSound] = useState(new Audio.Sound())
+
+    useEffect(()=>{
+        Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            
+            
+            playsInSilentModeIOS:true,
+            shouldDuckAndroid:true,
+            staysActiveInBackground:true,
+            
+        })
+        loadSound.loadAsync(require('./assets/loading.mp3'))
+        selectSound.loadAsync(require('./assets/Select.mp3'))
+    },[])
+
+    const status = { shouldPlay:false};
+
+    
+
+    const playSelectSound=()=>{
+        selectSound.playAsync();
+        selectSound.setPositionAsync(0)
+    }
+    const playLoadingSound=()=>{
+        loadSound.playAsync();
+
+    }
+
+
 
     const buttonStyleAnim = useAnimatedStyle(()=>{
         return{
@@ -103,7 +136,7 @@ export default function Vitals({navigation}){
                         </Animated.View>
                     </View>
                     <Animated.View style={[buttonStyleAnim,{alignItems:'center',top:500}]}>
-                        <TouchableOpacity style={{backgroundColor:'#77D199', borderRadius:10}} onPress={()=>{ progress.value = 0; scale.value = 0;buttonProgress.value=0; heartScale.value = 1;setPlayNext(true);flashText()}}>
+                        <TouchableOpacity style={{backgroundColor:'#77D199', borderRadius:10}} onPress={()=>{ progress.value = 0; scale.value = 0;buttonProgress.value=0; heartScale.value = 1;setPlayNext(true);flashText();playLoadingSound();playSelectSound()}}>
                             <Text style={{padding:15, fontFamily:'OpenSansSemiBold', color:'white', fontSize:20}} >Done</Text>
                         </TouchableOpacity>
                     </Animated.View>
@@ -158,7 +191,7 @@ export default function Vitals({navigation}){
                 <View style={styles.menuBar}>
       
                     <Icon name="person" size={37} color={"white"}></Icon>
-                    <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => navigation.navigate('Home')}></Icon>
+                    <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => {navigation.navigate('Home'),playSelectSound()}}></Icon>
                     <Icon name="settings" size={37} color={"white"}></Icon>
                 </View>
                 

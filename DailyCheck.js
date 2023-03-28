@@ -2,9 +2,33 @@ import React, { useEffect, useRef, useState,useCallback} from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 import OnBoarding from "./OnBoarding";
-
+import { Audio } from "expo-av";
 import { StatusBar } from "expo-status-bar";
 export default function DailyCheck({navigation}){
+
+const [sound, setSound] = useState(new Audio.Sound())
+useEffect(()=>{
+    Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        
+        playsInSilentModeIOS:true,
+        shouldDuckAndroid:true,
+        staysActiveInBackground:true,
+       
+    })
+    sound.loadAsync(require('./assets/Select.mp3'))
+    
+},[])
+
+const status = { shouldPlay:false};
+
+
+
+const playSound=()=>{
+    sound.playAsync();
+    sound.setPositionAsync(0)
+}
+
 
 
     return(
@@ -22,7 +46,7 @@ export default function DailyCheck({navigation}){
               
         <View style={styles.menuBar}>
             <Icon name="person" size={37} color={"white"} ></Icon>
-            <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => navigation.navigate('Home')}></Icon>
+            <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => {navigation.navigate('Home');playSound()}}></Icon>
             <Icon name="settings" size={37} color={"white"}></Icon>
         </View>
     </View>

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Modal  } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,8 +7,10 @@ import Icon from "react-native-vector-icons/Ionicons";
 import GoalData from "./components/GoalData";
 import AnimatedProgressWheel from 'react-native-progress-wheel'
 import { AddGoal } from "./components/addGoal";
+import { Audio } from "expo-av";
 
 var width = Dimensions.get("window").width
+
 
 
 
@@ -33,7 +35,26 @@ export default function Goals({navigation}){
     const [status,setStatus] = useState('All')
     const [isModalVisible, setModalVisible] = useState(false);
 
+    const [sound,setSound] = useState(new Audio.Sound())
 
+    useEffect(()=>{
+        Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            
+            
+            playsInSilentModeIOS:true,
+            shouldDuckAndroid:true,
+            staysActiveInBackground:true,
+            
+        })
+        sound.loadAsync(require('./assets/Select.mp3'))
+    },[]);
+
+
+    const playSound=()=>{
+        sound.playAsync();
+        sound.setPositionAsync(0)
+    }
     const setStatusFilter = status =>{
         if(status !== 'All'){
             setDataList([...data.filter(e=> e.status === status)])
@@ -129,7 +150,7 @@ export default function Goals({navigation}){
         <StatusBar style='auto'></StatusBar>
            
           <Text style={styles.titleText}>Goals</Text>
-          <TouchableOpacity style={styles.addButton} onPress={()=>{changeModalVisible(true)}}>
+          <TouchableOpacity style={styles.addButton} onPress={()=>{changeModalVisible(true);playSound()}}>
             <Icon name='add' size={50} color='white'></Icon>
           </TouchableOpacity>
           
@@ -172,7 +193,7 @@ export default function Goals({navigation}){
 
       <View style={styles.menuBar}>
             <Icon name="person" size={37} color={"white"} ></Icon>
-            <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => navigation.navigate('Home')}></Icon>
+            <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => {navigation.navigate('Home');playSound()}}></Icon>
             <Icon name="settings" size={37} color={"white"}></Icon>
         </View>
     </View>

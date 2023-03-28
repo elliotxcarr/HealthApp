@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { FadeInFlatList } from '@ja-ka/react-native-fade-in-flatlist';
 import useFonts from "./useFonts";
 import { AddMeds} from "./components/addMeds";
-
+import { Audio } from "expo-av";
 import medicationData from "./components/MedicationData";
 import { MedInfo } from "./components/medInfo";
 
@@ -24,6 +24,30 @@ export default function Medication({navigation}){
     const [isModalVisible, setModalVisible] = useState(false);
     const [isViewInfoVis, setIsViewInfo] = useState(false);
 
+    const [sound,setSound] = useState(new Audio.Sound())
+
+    useEffect(()=>{
+        Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            
+            playsInSilentModeIOS:true,
+            shouldDuckAndroid:true,
+            staysActiveInBackground:true,
+           
+        })
+        sound.loadAsync(require('./assets/Select.mp3'))
+    },[])
+
+    const status = { shouldPlay:false};
+
+    
+
+    const playSound=()=>{
+        sound.playAsync();
+        sound.setPositionAsync(0)
+    }
+
+
     const changeModalVisible = (bool)=>{
         setModalVisible(bool)
     }
@@ -36,14 +60,14 @@ export default function Medication({navigation}){
         setChooseData(data)
         }
     
-
+       
      const handleChange = (id)=>{
         
         let temp = products.map((product)=>{
             if(id === product.id){
                 return{...product, isRemind: !product.isRemind}
             }
-        
+            
             return product;
 
         });
@@ -64,11 +88,11 @@ export default function Medication({navigation}){
                     itemsToFadeIn={medicationData.length}
                     data = {medications}
                     style={styles.medList}
-                    extraData={medicationData}
+                    extraData={medications}
                     renderItem ={({item})=> (
                     
                     <View key={item.id} style={styles.medCard} >
-                    <TouchableOpacity onPress={()=> handleChange(item.id)} >
+                    <TouchableOpacity onPress={()=> {handleChange(item.id);playSound()}} >
                         <Icon name={item.isRemind ? 'notifications' : 'notifications-outline'} size={40} style={styles.bellIcon} color={'#77D199'}  />
                     
                         </TouchableOpacity>    
@@ -134,7 +158,7 @@ export default function Medication({navigation}){
                 </Modal>
                
                <View style={styles.addButton}>
-                        <Icon name='add' size={47} style={styles.button} onPress={()=>changeModalVisible(true)} ></Icon>
+                        <Icon name='add' size={47} style={styles.button} onPress={()=>{changeModalVisible(true);playSound()}} ></Icon>
                     </View>
 
                 
@@ -155,7 +179,7 @@ export default function Medication({navigation}){
                 <View style={styles.menuBar}>
       
                     <Icon name="person" size={37} color={"white"}></Icon>
-                    <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => navigation.navigate('Home')}></Icon>
+                    <Icon style={{backgroundColor:'#77D199'}} name="grid" size={50} color={"white"} onPress={() => {playSound(); navigation.navigate('Home')}}></Icon>
                     <Icon name="settings" size={37} color={"white"}></Icon>
                 </View>
                 </View>

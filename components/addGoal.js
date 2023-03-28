@@ -8,16 +8,19 @@ const HEIGH_MODAL = Dimensions.get('window').height;
 
 const AddGoal = (props) => {
 
-    var todaysDate = new Date();
-    console.log(todaysDate)
-
+    
+    
 
     const closeModal = (bool,data)=>{
         props.changeModalVisible(bool)
         
        }
+       const setValue = (value) => {
+        var newArray = value.filter((item)=>item.selected===true); //get the items that are selected
+        setRadioButtons(newArray[0].value); //set the selected value in this Hook
+      };
     
-       const [radioButtons, setRadioButtons] = useState([
+       const radioButtonsData = [
         {
             id: '1',
             label: 'Fitness',
@@ -28,18 +31,36 @@ const AddGoal = (props) => {
         {
             id: '2',
             label: 'Dietary',
-            value: 'Fitness',
+            value: 'Dietary',
             color:'#F9BB41',
             labelStyle:styles.radioText
         }
-    ]);
-
+    ];
+    const [radioButtons, setRadioButtons] = useState('fitness');
     const closeAndAdd = (bool,newGoalText,newDays,radioButtons)=>{
+
+        function formatDate() {
+            var d = new Date(),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+        
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+                console.log(day)
+            return [year, month, day].join('-');
+        }
+        
+
         props.changeModalVisible(bool);
+        console.log(radioButtons)
         goalData.push({
+            
             id:goalData.length + 1,
             goal:newGoalText,
-            dateStart : '2023-03-06',
+            dateStart : formatDate().toString(),
             days: newDays,
             progress:null,
             status: radioButtons
@@ -47,8 +68,9 @@ const AddGoal = (props) => {
         
     }
 
-    function onPressRadioButton(radioButtonsArray) {
-        setRadioButtons(radioButtonsArray);
+    function onPressRadioButton(value) {
+        setRadioValue(value);
+        
     }
     const [newGoalText, setGoalText] = useState("")
     const [newDays , setDays] = useState("")
@@ -70,8 +92,8 @@ const AddGoal = (props) => {
                 <RadioGroup 
                 
                 layout="row"
-            radioButtons={radioButtons} 
-            onPress={onPressRadioButton}
+            radioButtons={radioButtonsData} 
+            onPress={(value)=> setValue(value)}
              
         />
 
