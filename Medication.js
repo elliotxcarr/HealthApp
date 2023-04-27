@@ -23,7 +23,7 @@ export default function Medication({navigation}){
     const [products, setProducts] = useState(medicationData);
     const [isModalVisible, setModalVisible] = useState(false);
     const [isViewInfoVis, setIsViewInfo] = useState(false);
-
+    
     const [sound,setSound] = useState(new Audio.Sound())
 
     useEffect(()=>{
@@ -64,7 +64,7 @@ export default function Medication({navigation}){
      const handleChange = (id)=>{
         
         let temp = products.map((product)=>{
-            if(id === product.id){
+            if(id === product.id ){
                 return{...product, isRemind: !product.isRemind}
             }
             
@@ -72,6 +72,7 @@ export default function Medication({navigation}){
 
         });
         setProducts(temp)
+        
      }
     
     const LoadFonts = async () => {
@@ -93,7 +94,8 @@ export default function Medication({navigation}){
                     
                     <View key={item.id} style={styles.medCard} >
                     <TouchableOpacity onPress={()=> {handleChange(item.id);playSound()}} >
-                        <Icon name={item.isRemind ? 'notifications' : 'notifications-outline'} size={40} style={styles.bellIcon} color={'#77D199'}  />
+                        <Icon name={item.isRemind ? 'notifications' : 'notifications-outline'} size={40} 
+                        style={styles.bellIcon} color={'#77D199'}/>
                     
                         </TouchableOpacity>    
                     <View style={styles.medLabel} >

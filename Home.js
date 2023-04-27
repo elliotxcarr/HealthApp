@@ -4,14 +4,14 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
-  FlatList,
+  
   TouchableOpacity,
   View,
-  Image,
+  
   SafeAreaView,
-  Dimensions,
+  
   Animated,
-  ActivityIndicator,
+  
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -132,6 +132,8 @@ const playSound=()=>{
 
   return (
     <SafeAreaView style={styles.container}>
+
+
       <Video
         source={require("./assets/avatar.mp4")}
         rate={1.0}
@@ -142,6 +144,9 @@ const playSound=()=>{
         isLooping={true}
         style={styles.backgroundVideo}
       />
+
+
+
       <StatusBar style="auto" />
       <View style={styles.title}>
         <Text style={styles.titleText}>Welcome {currentFName}!</Text>
@@ -153,7 +158,7 @@ const playSound=()=>{
             handleSignout();
           }}
         ></Icon>
-        <Icon name="settings" style={styles.profile} size={45}></Icon>
+        <Icon name="settings" style={styles.profile} size={45} onPress={()=>navigation.navigate('Test')}></Icon>
       </View>
 
       <Animated.View

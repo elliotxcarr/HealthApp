@@ -104,7 +104,7 @@ const AddGoal = (props) => {
                     </View>
 
                     <View style={styles.inputs}>
-                        <Text style={styles.tags}>How many days?</Text>
+                        <Text style={styles.tags}>How many days will this goal be set for?</Text>
                         <View style={{flexDirection:'row'}}>
                             <TextInput style={[styles.name,{width:70}]} placeholder="" keyboardType="numeric" onChangeText={(newDays)=>setDays(newDays)} value={newDays} ></TextInput>
                         

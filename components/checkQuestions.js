@@ -6,17 +6,17 @@ export default [
     },
     {
         id:"2",
-        question:"How would you describe your body today in terms of pain or discomfort?",
+        question:"How would you rate your body today in terms of PAIN or DISCOMFORT?",
         
     },
     {
         id:"3",
-        question:"Use the slider to rate how RELAXED you feel today",
+        question:"Use the slider to rate how RELAXED you are feeling today",
         
     },
     {
         id:"4",
-        question:"Use the slider to rate your level of ENERGY today",
+        question:"Use the slider to rate your ENERGY levels today",
         
     },
     {

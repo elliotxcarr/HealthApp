@@ -74,10 +74,7 @@ export default function Vitals({navigation}){
         progress.value = withTiming(1) 
         scale.value =  withDelay( 600, withTiming(3)) 
         buttonProgress.value =  withDelay( 2000, withTiming(1)) 
-
-        
-
-       
+  
     },[]);
 
     
@@ -91,6 +88,7 @@ export default function Vitals({navigation}){
             opacity: textOpac.value
         }
        },[])
+
        const flashText = ()=>{
         
             textOpac.value  = 

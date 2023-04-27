@@ -25,7 +25,7 @@
     "lottie-react-native": "5.1.4",
     "native-notify": "^3.0.4",
     "react": "18.1.0",
-    "react-native": "0.70.5",
+    "react-native": "0.70.8",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-progress-wheel": "^1.0.5",
     "react-native-radio-buttons-group": "^2.3.2",
